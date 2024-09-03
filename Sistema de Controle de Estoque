@@ -1,0 +1,84 @@
+-- Criação do Banco de Dados
+CREATE DATABASE SistemaControleEstoque;
+USE SistemaControleEstoque;
+
+-- Criação das Tabelas
+
+-- Tabela Fornecedores
+CREATE TABLE Fornecedores (
+    id_fornecedor INT AUTO_INCREMENT PRIMARY KEY,
+    nome_fornecedor VARCHAR(100) NOT NULL,
+    contato_email VARCHAR(100),
+    telefone VARCHAR(20)
+);
+
+-- Tabela Produtos
+CREATE TABLE Produtos (
+    id_produto INT AUTO_INCREMENT PRIMARY KEY,
+    nome_produto VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    preco DECIMAL(10, 2) NOT NULL,
+    quantidade_em_estoque INT NOT NULL
+);
+
+-- Tabela PedidosReposicao
+CREATE TABLE PedidosReposicao (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_produto INT,
+    id_fornecedor INT,
+    quantidade_pedida INT NOT NULL,
+    data_pedido DATE NOT NULL,
+    FOREIGN KEY (id_produto) REFERENCES Produtos(id_produto),
+    FOREIGN KEY (id_fornecedor) REFERENCES Fornecedores(id_fornecedor)
+);
+
+-- Inserção de Dados
+
+-- Inserir Fornecedores
+INSERT INTO Fornecedores (nome_fornecedor, contato_email, telefone) VALUES
+('Fornecedor A', 'contato@fornecedora.com', '111223344'),
+('Fornecedor B', 'contato@fornecedorb.com', '555667788'),
+('Fornecedor C', 'contato@fornecedorC.com', '999000111');
+
+-- Inserir Produtos
+INSERT INTO Produtos (nome_produto, descricao, preco, quantidade_em_estoque) VALUES
+('Produto X', 'Descrição do Produto X', 29.99, 100),
+('Produto Y', 'Descrição do Produto Y', 49.99, 150),
+('Produto Z', 'Descrição do Produto Z', 19.99, 200);
+
+-- Inserir Pedidos de Reposição
+INSERT INTO PedidosReposicao (id_produto, id_fornecedor, quantidade_pedida, data_pedido) VALUES
+(1, 1, 50, '2024-09-01'),  -- Pedido para Produto X com Fornecedor A
+(2, 2, 30, '2024-09-05'),  -- Pedido para Produto Y com Fornecedor B
+(3, 3, 70, '2024-09-10');  -- Pedido para Produto Z com Fornecedor C
+
+-- Consultas
+
+-- 1. Verificar produtos em estoque
+SELECT * FROM Produtos;
+
+-- 2. Consultar pedidos de reposição feitos
+SELECT P.nome_produto, F.nome_fornecedor, PR.quantidade_pedida, PR.data_pedido
+FROM PedidosReposicao PR
+JOIN Produtos P ON PR.id_produto = P.id_produto
+JOIN Fornecedores F ON PR.id_fornecedor = F.id_fornecedor;
+
+-- 3. Informações sobre os fornecedores
+SELECT * FROM Fornecedores;
+
+-- Atualização de Dados
+
+-- 1. Atualizar a quantidade de produtos em estoque após receber um novo pedido de reposição
+UPDATE Produtos
+SET quantidade_em_estoque = quantidade_em_estoque + 50
+WHERE id_produto = 1;  -- Supondo que o Produto X recebeu 50 unidades a mais
+
+-- Deleção de Dados
+
+-- 1. Excluir produtos descontinuados (exemplo para produtos com id_produto = 3)
+DELETE FROM Produtos
+WHERE id_produto = 3;
+
+-- 2. Remover fornecedores que não fazem mais parte da empresa (exemplo para fornecedor com id_fornecedor = 2)
+DELETE FROM Fornecedores
+WHERE id_fornecedor = 2;
