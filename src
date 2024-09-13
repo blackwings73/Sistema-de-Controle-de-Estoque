@@ -1,0 +1,62 @@
+# Sistema de Controle de Estoque
+
+Este repositório contém o esquema de banco de dados para um sistema de controle de estoque. O banco de dados é projetado para gerenciar informações sobre fornecedores, produtos e pedidos de reposição.
+
+## Estrutura do Banco de Dados
+
+O banco de dados possui as seguintes tabelas:
+
+- **Fornecedores**
+  - `id_fornecedor` (INT, PK, AUTO_INCREMENT): Identificador único do fornecedor.
+  - `nome_fornecedor` (VARCHAR(100)): Nome do fornecedor.
+  - `contato_email` (VARCHAR(100)): Endereço de e-mail de contato do fornecedor.
+  - `telefone` (VARCHAR(20)): Número de telefone do fornecedor.
+
+- **Produtos**
+  - `id_produto` (INT, PK, AUTO_INCREMENT): Identificador único do produto.
+  - `nome_produto` (VARCHAR(100)): Nome do produto.
+  - `descricao` (TEXT): Descrição do produto.
+  - `preco` (DECIMAL(10,2)): Preço do produto.
+  - `quantidade_em_estoque` (INT): Quantidade do produto disponível em estoque.
+
+- **PedidosReposicao**
+  - `id_pedido` (INT, PK, AUTO_INCREMENT): Identificador único do pedido de reposição.
+  - `id_produto` (INT, FK): Referência ao produto que está sendo solicitado.
+  - `id_fornecedor` (INT, FK): Referência ao fornecedor do qual o pedido foi feito.
+  - `quantidade_pedida` (INT): Quantidade solicitada do produto.
+  - `data_pedido` (DATE): Data em que o pedido foi feito.
+
+## Scripts SQL
+
+Os scripts SQL no repositório realizam as seguintes operações:
+
+1. **Criação do Banco de Dados e Tabelas**:
+   - Cria o banco de dados `SistemaControleEstoque` e as tabelas `Fornecedores`, `Produtos`, e `PedidosReposicao`.
+
+2. **Inserção de Dados**:
+   - Adiciona fornecedores, produtos e pedidos de reposição iniciais.
+
+3. **Consultas**:
+   - Verifica produtos em estoque.
+   - Consulta pedidos de reposição feitos.
+   - Exibe informações sobre os fornecedores.
+
+4. **Atualização e Deleção**:
+   - Atualiza a quantidade de produtos em estoque após receber um novo pedido de reposição.
+   - Exclui produtos descontinuados.
+   - Remove fornecedores que não fazem mais parte da empresa.
+
+## Uso
+
+1. Clone este repositório.
+2. Execute os scripts SQL fornecidos em seu banco de dados MySQL para criar o esquema e inserir dados.
+3. Utilize as consultas SQL fornecidas para interagir com o banco de dados e gerar relatórios.
+
+## Contribuições
+
+Se você deseja contribuir para este projeto, por favor, faça um fork do repositório e envie um pull request com suas alterações.
+
+## Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).
+
